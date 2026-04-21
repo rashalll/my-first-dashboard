@@ -8,10 +8,10 @@ def fetch_and_store():
 
     # CONNECT
     conn = psycopg2.connect(
-        host="postgres",
-        database="postgres",
-        user="admin",
-        password="admin",
+        host="dpg-d7j7a09j2pic73ai4hs0-a",
+        database="mydb_anp4",
+        user="mydb_anp4_user",
+        password="CkaKoAx9uexixidhTUrMGWoEHVcb60hj",
         port="5432"
     )
 
