@@ -3,6 +3,8 @@ import pandas as pd
 import psycopg2
 import time
 import plotly.express as px
+import os
+
 
 from streamlit_autorefresh import st_autorefresh
 
@@ -10,13 +12,12 @@ st_autorefresh(interval=30000, key="datarefresh")
 
 # CONNECT TO DB
 conn = psycopg2.connect(
-    host="dpg-d7j7a09j2pic73ai4hs0-a",
-    database="mydb_anp4",
-    user="mydb_anp4_user",
-    password="CkaKoAx9uexixidhTUrMGWoEHVcb60hj",
-    port="5432"
+    host=os.getenv("DB_HOST"),
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    port=os.getenv("DB_PORT")
 )
-
 #load/query data
 query = "SELECT * FROM crypto_prices ORDER BY created_at ASC"
 df = pd.read_sql(query, conn)
