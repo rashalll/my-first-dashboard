@@ -12,11 +12,11 @@ st_autorefresh(interval=30000, key="datarefresh")
 
 # CONNECT TO DB
 conn = psycopg2.connect(
-    host=os.getenv["DB_HOST"],
-    database=os.getenv["DB_NAME"],
-    user=os.getenv["DB_USER"],
-    password=os.getenv["DB_PASSWORD"],
-    port=os.getenv["DB_PORT"]
+    host=os.getenv("DB_HOST"),
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    port=os.getenv("DB_PORT")
 )
 #load/query data
 query = "SELECT * FROM crypto_prices ORDER BY created_at ASC"
