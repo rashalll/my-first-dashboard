@@ -1,3 +1,5 @@
+import os
+
 import psycopg2
 import time
 import requests as request 
@@ -8,11 +10,12 @@ def fetch_and_store():
 
     # CONNECT
     conn = psycopg2.connect(
-        host="dpg-d7j7a09j2pic73ai4hs0-a",
-        database="mydb_anp4",
-        user="mydb_anp4_user",
-        password="CkaKoAx9uexixidhTUrMGWoEHVcb60hj",
-        port="5432"
+        host=os.getenv("DB_HOST"),
+        database=os.getenv("DB_NAME"),
+        user =os.getenv("DB_USER"), 
+        password=os.getenv("DB_PASSWORD"),
+        port=os.getenv("DB_PORT"),
+        sslmode='require'
     )
 
     cur = conn.cursor()
