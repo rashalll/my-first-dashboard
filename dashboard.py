@@ -90,7 +90,7 @@ fig.update_layout(
     xaxis_title='Time',
     yaxis_title='Price (USD)'
 )
-
+fig.update_yaxes(type='log')
 st.plotly_chart(fig, use_container_width=True)
 
 st.caption("Data autorefreshes every 30 seconds")

@@ -31,6 +31,7 @@ services:
       - airflow-init
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://admin:admin@postgres:5432/postgres
+      - _PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-postgres requests psycopg2-binary
     volumes:
       - ./dags:/opt/airflow/dags
       - ./pipeline:/opt/airflow/pipeline
@@ -45,6 +46,7 @@ services:
       - airflow-init
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://admin:admin@postgres:5432/postgres
+      - _PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-postgres requests psycopg2-binary
     volumes:
       - ./dags:/opt/airflow/dags
       - ./pipeline:/opt/airflow/pipeline
