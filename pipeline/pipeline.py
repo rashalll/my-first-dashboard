@@ -4,24 +4,19 @@ import psycopg2
 import time
 import requests as request 
 from datetime import datetime
+from airflow.providers.postgres.hooks.postgres import PostgresHook  
 
 def fetch_and_store():
     print("Starting REAL pipeline...")
+    hook = PostgresHook(postgres_conn_id="postgres_default")
+
 
     # CONNECT
-    conn = psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user =os.getenv("DB_USER"), 
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT"),
-        sslmode='require'
-    )
-
-    cur = conn.cursor()
+conn = hook.get_conn()
+cur = conn.cursor()
 
     # CREATE TABLE
-    cur.execute("""
+cur.execute("""
     CREATE TABLE IF NOT EXISTS crypto_prices (
         id SERIAL PRIMARY KEY,
         name TEXT,
@@ -29,12 +24,12 @@ def fetch_and_store():
         created_at TIMESTAMP
     );
     """)
-    conn.commit()
+conn.commit()
 
-    print("Table ready. Fetching crypto data...\n")
+print("Table ready. Fetching crypto data...\n")
 
     # LOOP
-    try:
+try:
        url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1"
        response = request.get(url)
        data = response.json()
@@ -50,12 +45,12 @@ def fetch_and_store():
             """, (name, price, now))
             conn.commit()
        print(f"[{now.strftime('%H:%M:%S')}] Inserted {len(data)} top coins")
-    except Exception as e:
+except Exception as e:
         print("ERRoR:",e)
         
-    except KeyboardInterrupt:
+except KeyboardInterrupt:
         print("\nPipeline stopped by user.")
-    finally:
+finally:
         cur.close()
         conn.close()
         print("Task Finished.")
